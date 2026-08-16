@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Ganpati Chanda Manager
 
-## Getting Started
+Production-oriented, mobile-first Next.js app for Ganpati Mandal chanda collection, server-verified receipts, Supabase Auth/PostgreSQL/RLS, expense and withdrawal controls, immutable ledger, public transparency, and reports.
 
-First, run the development server:
+## Setup
 
 ```bash
+npm install
+cp .env.example .env.local
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Apply `supabase/schema.sql` and optional `supabase/seed.sql` in Supabase SQL editor/CLI.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Required environment variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+PAYMENT_PROVIDER=development
+PAYMENT_KEY_ID=
+PAYMENT_KEY_SECRET=
+PAYMENT_WEBHOOK_SECRET=dev-webhook-secret
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+```
 
-## Learn More
+Only `NEXT_PUBLIC_*` values may be used in browser code. Payment secrets are server-only and used by API route handlers/payment services.
 
-To learn more about Next.js, take a look at the following resources:
+## Security architecture
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Supabase Auth handles sessions; admin pages are designed for server-side authorization and database RLS.
+- `supabase/schema.sql` enables RLS and mandal isolation policies.
+- Payments use `services/payment.ts` abstraction with create, verify, webhook, and refund methods.
+- Development adapter is clearly marked mock mode and must not be represented as real money.
+- Webhook route validates signatures, is idempotent, and returns actions for donation verification, receipt creation, ledger entry, and audit log.
+- Financial records should be reversed/cancelled with audit logs, not permanently deleted.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Checks
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run lint
+npm run typecheck
+npm test
+npm run build
+```
