@@ -1,0 +1,2 @@
+import {getPaymentService} from '@/services/payment';import {rupeesToPaise} from '@/lib/money';
+export async function POST(request:Request){try{const form=await request.formData();const amount=rupeesToPaise(form.get('amount'));const order=await getPaymentService().createOrder(amount,{donor:String(form.get('name')||'')});return Response.json({order,mode:'DEVELOPMENT_MOCK_NOT_REAL_PAYMENT'})}catch{return Response.json({error:'Invalid amount or request'}, {status:400})}}

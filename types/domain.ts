@@ -1,0 +1,9 @@
+export type Role='SUPER_ADMIN'|'COLLECTION_MANAGER'|'ACCOUNT_MANAGER'|'VIEWER';
+export type DonationStatus='PENDING'|'VERIFIED'|'FAILED'|'REFUNDED'|'CANCELLED';
+export type PaymentMethod='CASH'|'UPI'|'CARD'|'NETBANKING';
+export type WithdrawalStatus='REQUESTED'|'APPROVED'|'REJECTED'|'COMPLETED';
+export type TransactionType='DONATION'|'CASH_DONATION'|'EXPENSE'|'WITHDRAWAL'|'REFUND'|'ADJUSTMENT';
+export type Donation={id:string;receiptNumber:string;donorName:string;mobile:string;amount:number;paymentMethod:PaymentMethod;status:DonationStatus;transactionId:string;createdAt:string};
+export type Expense={id:string;title:string;category:string;amount:number;date:string;paidBy:string;billUrl?:string};
+export type Withdrawal={id:string;amount:number;purpose:string;status:WithdrawalStatus;requestedBy:string;approvedBy?:string;date:string};
+export type Transaction={id:string;date:string;type:TransactionType;description:string;income:number;expense:number;balance:number;createdBy:string};

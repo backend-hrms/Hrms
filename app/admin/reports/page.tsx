@@ -1,0 +1,2 @@
+import {AdminLayout,DateFilter} from '@/components/ui';
+export default function Reports(){return <AdminLayout><h1>Reports</h1><DateFilter/><div className="grid cards">{['Daily Collection','Monthly Collection','Donor Report','Cash Collection','Online Collection','Expense Report','Withdrawal Report','Complete Ledger'].map(r=><div className="card" key={r}><h3>{r}</h3><button className="btn">Export CSV</button> <button className="btn secondary">Export PDF</button></div>)}</div></AdminLayout>}

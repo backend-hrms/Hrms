@@ -1,0 +1,2 @@
+import {withdrawals} from '@/lib/demo-data';import {formatINR} from '@/lib/money';import {AdminLayout} from '@/components/ui';import {WithdrawalForm} from '@/components/forms';
+export default function Withdrawals(){return <AdminLayout><h1>Withdrawal Module</h1><WithdrawalForm/><table className="table"><tbody>{withdrawals.map(w=><tr key={w.id}><td>{w.id}</td><td>{formatINR(w.amount)}</td><td>{w.purpose}</td><td><span className="badge">{w.status}</span></td><td>{w.requestedBy}</td></tr>)}</tbody></table></AdminLayout>}
